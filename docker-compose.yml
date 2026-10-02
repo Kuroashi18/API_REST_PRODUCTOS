@@ -1,0 +1,50 @@
+services:
+
+  auth-db:
+    image: mongo:8
+    volumes:
+      - auth-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  product-db:
+    image: mongo:8
+    volumes:
+      - product-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  auth-service:
+    build: ./services/auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      MONGO_URI: mongodb://auth-db:27017/authDB
+      JWT_SECRET: mysecretkey
+    depends_on:
+      auth-db:
+        condition: service_healthy
+
+  product-service:
+    build: ./services/product-service
+    ports:
+      - "3002:3002"
+    environment:
+      MONGO_URI: mongodb://product-db:27017/productsDB
+      AUTH_SERVICE_URL: http://auth-service:3001
+      PORT: 3002
+    depends_on:
+      product-db:
+        condition: service_healthy
+      auth-service:
+        condition: service_started
+
+volumes:
+  auth-data:
+  product-data:
