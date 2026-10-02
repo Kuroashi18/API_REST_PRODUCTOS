@@ -79,3 +79,9 @@ http://localhost:5173
 ```
 
 Desde la interfaz se pueden consultar los productos e iniciar sesión para crear nuevos productos.
+
+## Reorganización del proyecto
+
+El backend fue reorganizado por dominio y separado en capas. Las rutas reciben las peticiones HTTP, los servicios contienen la lógica de los casos de uso y los repositorios se encargan del acceso a MongoDB mediante Mongoose. Esto permite separar responsabilidades y evita que la lógica de negocio dependa directamente de Express o de la base de datos.
+
+En el frontend, los componentes fueron separados de `App.jsx` y la lógica para consultar y crear productos se mantiene en hooks personalizados como `useProducts` y `useCreateProduct`. De esta forma, los componentes se enfocan principalmente en mostrar la interfaz.
