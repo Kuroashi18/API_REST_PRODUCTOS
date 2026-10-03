@@ -1,0 +1,10 @@
+{
+  "name": "api-rest-productos",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:backend": "npm --prefix services/product-service test",
+    "test:e2e": "npm --prefix Frontend run test:e2e",
+    "test": "npm run test:backend && npm run test:e2e"
+  }
+}

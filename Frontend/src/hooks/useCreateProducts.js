@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:3002";
 const ENDPOINT = "/products";
 
 export function useCreateProduct(token) {
